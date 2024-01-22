@@ -4,6 +4,7 @@ const parser = @import("parser.zig");
 
 pub fn main() !void {
     const contents = try reader.read_file("test.json");
-    const r = parser.json_parse(contents);
-    std.debug.print("{any}", .{r});
+    const allocator = std.heap.ArenaAllocator(std.heap.page_allocator);
+    const value = parser.parser(allocator).parse(contents);
+    std.debug.print("{any}", .{value});
 }
